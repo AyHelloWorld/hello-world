@@ -1,0 +1,19 @@
+
+使用说明：
+https://open-doc.dingtalk.com/docs/doc.htm?spm=a219a.7629140.0.0.karFPe&treeId=257&articleId=105735&docType=1
+
+发送消息：
+curl 'https://oapi.dingtalk.com/robot/send?access_token=b1dbacd7f3851457577fdb890b9c50302097a92c22b61ed7d7a0c30704c888c1'    -H 'Content-Type: application/json'    -d '
+{
+    "msgtype": "text",
+    "text": {
+        "content": "我就是我,  @15323848041 这是一个测试"
+    },
+    "at": {
+        "atMobiles": [
+            "15323848041"
+        ],
+        "isAtAll": false
+    }
+}'
+
