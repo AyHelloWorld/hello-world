@@ -147,7 +147,3 @@ gswewf@gswewf-PC:~/docker/neo4j/multiple_projects$ docker exec -it multiple_proj
 bash-4.4# pwd
 /var/lib/neo4j
 bash-4.4# ./bin/neo4j-shell -host 127.0.0.1 -port 1337 -file /var/lib/neo4j/guoxinzhengquan_all.cypher
-
-
-
-

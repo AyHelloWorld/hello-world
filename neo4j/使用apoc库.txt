@@ -160,3 +160,13 @@ CALL apoc.load.json(url) YIELD value
 UNWIND value.items AS item
 RETURN item.title, item.owner, item.creation_date, keys(item)
 
+复杂用法：
+Match (n)-[r:`下一步`]->(c)
+with collect(n) as colN, collect(c) as colC, collect(r) as colR
+CALL apoc.export.cypher.data(colN+colC,colR, '/tmp/exportData.cypher',{format:'plain'}) YIELD nodes, relationships
+RETURN nodes, relationships
+
+time ./cypher-shell -u yourUsername -p yourPassword  "Match (n:Person)-[r:LIKES_COMMENT]->(c:Comment)
+with collect(n) as colN, collect(c) as colC, collect(r) as colR
+CALL apoc.export.cypher.data(colN+colC,colR, 'yourPath/exportData.cypher',{format:'plain'}) YIELD nodes, relationships
+RETURN nodes, relationships"
