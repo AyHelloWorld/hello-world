@@ -1,4 +1,11 @@
 
+
+# 查找分支节点，或终止节点；若当前是分支节点，就返回当前节点，否则返回后续的分支节点或终止节点；
+MATCH p=(n2:TuijianState:Zhongdeanlian) where n2.status='place' with n2 match (n2)-[*0..10]->(n3) where  (NOT (n3)-->() or length((n3)-->())>=2 or length((n2)-->())>=2 )return DISTINCT CASE WHEN length((n2)-->())>=2  THEN n2
+ ELSE n3
+END as ns limit 1
+
+
 MATCH (s:page)
 WITH s
 OPTIONAL MATCH (s)<-[r:pagetag]-(tag)

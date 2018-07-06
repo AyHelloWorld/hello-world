@@ -410,6 +410,21 @@ LOAD CSV WITH HEADERS FROM "file:///PersonRel_Format.csv" AS line
 match (from:person{id:line.from_id}),(to:person{id:line.to_id})
 merge (from)-[r:rel{property1:line.property1,property2:line.property2}]->(to)
 
+其他一些示例：
+LOAD CSV WITH HEADERS FROM "file:///test_dataset/edges.csv" AS line
+WITH line WHERE line.relation ='RELATED_TO'
+MATCH (person1:Person {pid:line.node1})
+MATCH (person2:Person {pid:line.node2})
+CREATE (person1)-[:RELATED_TO {type:line.type}]->(person2)
+
+USING PERIODIC COMMIT
+LOAD CSV FROM "file:///file-name.csv" AS line
+WITH line
+SKIP 2000000 LIMIT 1000000
+MATCH (a:Person {name: line[0]}),(b:Person {name:line[1]})
+CREATE (a)-[:FOLLOWS {period: line[2]}]->(b)
+
+
 
 目前主要有以下几种数据插入方式：
     Cypher CREATE 语句，为每一条数据写一个CREATE
