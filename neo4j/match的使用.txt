@@ -68,3 +68,26 @@ UNWIND nodes(p) as ns1 with ns1 where ns1.status="who"
 with ns1 match p=(ns1:TuijianState:Zhongdeanlian)-[*0..10]->(n2)
 UNWIND nodes(p) as ns
 return DISTINCT ns order by ns.id
+
+# 查询所有的属性键：
+MATCH (n:Zhongxinyinhang)where n.name='薪金煲' WITH keys(n) as k UNWIND k as x RETURN DISTINCT x
+
+MATCH (n:Zhongxinyinhang)where n.name='薪金煲' return keys(n), properties(n)
+
+match (n)
+WITH distinct keys(n) as properties
+UNWIND properties as property
+return distinct property
+
+MATCH (n:Zhongxinyinhang)where n.name='薪金煲'
+WITH collect(n) AS persons
+RETURN persons
+
+call apoc.meta.data() yield label, property
+with ['Zhongxinyinhang', 'Youbangxianggang'] as labels, property, label where label in labels
+return property, label
+
+# 统计求和：
+RETURN bus, apoc.coll.sum([rel in bus | rel.fare]) as totalFare
+或：
+RETURN bus, reduce(total = 0, rel in bus | total + rel.fare) as totalFare
