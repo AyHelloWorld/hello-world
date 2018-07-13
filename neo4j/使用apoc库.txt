@@ -170,3 +170,12 @@ time ./cypher-shell -u yourUsername -p yourPassword  "Match (n:Person)-[r:LIKES_
 with collect(n) as colN, collect(c) as colC, collect(r) as colR
 CALL apoc.export.cypher.data(colN+colC,colR, 'yourPath/exportData.cypher',{format:'plain'}) YIELD nodes, relationships
 RETURN nodes, relationships"
+
+mkdir plugins
+pushd plugins
+wget https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/3.4.0.1/apoc-3.4.0.1-all.jar
+popd
+docker run --rm -e NEO4J_AUTH=none -p 7474:7474 -v $PWD/plugins:/plugins -p 7687:7687 neo4j:3.4.0
+
+下载zip文件（https://codeload.github.com/neo4j-contrib/neo4j-apoc-procedures/zip/3.4.0.1），解压；
+浏览器打开‘./neo4j-apoc-procedures-3.4.0.1/docs/index.html'即可查看apoc的使用帮助；

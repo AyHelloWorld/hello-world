@@ -59,3 +59,15 @@ where id(n)=7 and id(m)=8
 set r.team='Azure'
 return n;
 
+# 修改 关系 指向 另一个 节点， 关系重定向
+方法1： 使用 apoc-procedures：
+ call apoc.refactor.from(rel, newStartNode)
+方法2：使用笨办法，创一个新的一模一样的关系，然后删掉老的：
+MATCH (n1)-[r1:foo]->(n2),(n6)
+	WHERE n1.id = 1 AND n2.id = 2 and n6.id = 6
+	CREATE (n2)-[r2:foo]->(n6)
+	SET r2=r1
+	DELETE r1
+
+# 合并节点：
+call apoc.refactor.mergeNodes([node1,node2],{config})

@@ -5,6 +5,30 @@ MATCH p=(n2:TuijianState:Zhongdeanlian) where n2.status='place' with n2 match (n
  ELSE n3
 END as ns limit 1
 
+MATCH (start:Node)-[:REL]->(a)-[:REL]->(b)
+WITH collect(distinct a) as aNodes, collect(distinct b) as bNodes
+CALL apoc.when(size(aNodes) <= size(bNodes), 'RETURN aNodes as resultNodes', 'RETURN bNodes as resultNodes', {aNodes:aNodes, bNodes:bNodes}) YIELD value
+RETURN value.resultNodes as resultNodes
+
+MATCH (me:User{id:{myId}})
+CALL apoc.case(
+[{selection} = 'friends', "RETURN [(me)-[:FRIENDS]-(friend) | friend] as selection",
+{selection} = 'coworkers', "RETURN [(me)-[:WORKS_AT*2]-(coworker) | coworker] as selection",
+{selection} = 'all', "RETURN apoc.coll.union([(me)-[:FRIENDS]-(friend) | friend], [(me)-[:WORKS_AT*2]-(coworker) | coworker]) as selection"],
+'RETURN [] as selection', {me:me}) YIELD value
+RETURN value.selection as selection
+
+CALL apoc.when（condition，ifQuery，elseQuery：''，params：{}）产生价值
+基于条件，使用给定参数执行只读ifQuery或elseQuery
+CALL apoc.do.when（condition，ifQuery，elseQuery：''，params：{}）产生价值
+基于条件，执行使用给定参数编写ifQuery或elseQuery
+CALL apoc.case（[condition，query，condition，query，...]，elseQuery：''，params：{}）yield value
+给定条件/只读查询对的列表，使用给定参数执行与第一个条件评估关联的查询为true（或者如果没有则为else，则执行else查询）
+CALL apoc.do.case（[condition，query，condition，query，...]，elseQuery：''，params：{}）yield value
+给定条件/写入查询对的列表，使用给定参数执行与第一个条件评估关联的查询为true（或者如果没有则为else，则执行else查询）
+
+# 更多示例： https://neo4j-contrib.github.io/neo4j-apoc-procedures/#graph_algorithms
+
 
 MATCH (s:page)
 WITH s

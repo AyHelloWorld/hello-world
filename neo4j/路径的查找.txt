@@ -1,0 +1,65 @@
+
+# 最短路径的查找：
+# shortestpath()方法只能查 关系的“跳数”最少的路径
+MATCH (start:Point {title: "Some Point 1"}), (end:Point {title: "Some Point 5"})
+MATCH p=shortestPath((start)-[:distance*]->(end))
+RETURN p
+
+# 按权重查找最短路径：
+# 按照自己权重查最优路径，就遍历全部路径，然后用reduce（）方法筛选
+
+# 样例数据
+// 创建节点
+Create(b:device{id:"B",name:"B",X:4,Y:10})
+Create(e:device{id:"E",name:"E",X:18,Y:10})
+Create(c:device{id:"C",name:"C",X:24,Y:10})
+Create(d:device{id:"D",name:"D",X:40,Y:10})
+Create(a:device{id:"A",name:"A",X:36,Y:5})
+//添加关系
+create (b)-[:to{RC:14}]->(e)  create (e)-[:to{RC:14}]->(b)
+create (e)-[:to{RC:6}]->(c)  create (c)-[:to{RC:6}]->(e)
+create (c)-[:to{RC:16}]->(d)  create (d)-[:to{RC:16}]->(c)
+create (d)-[:to{RC:9}]->(a)  create (a)-[:to{RC:9}]->(d)
+create (a)-[:to{RC:37}]->(b)  create (b)-[:to{RC:37}]->(a)
+
+# 查找A到E之间的最短路径
+MATCH (start {id: "A"}), (end {id: "E"})
+MATCH p=(start)-[:to*]->(end)
+WITH p,reduce(s = 0, r IN rels( p) | s + r.RC) AS dist
+RETURN p, dist ORDER BY dist asc limit 1
+
+# 若不限定关系类型：
+MATCH (start {id: "A"}), (end {id: "E"})
+MATCH p=(start)-[*]->(end)
+WITH p,reduce(s = 0, r IN rels( p) | s + r.RC) AS dist
+RETURN p, dist ORDER BY dist asc limit 1
+
+# 对路径的值进行限定：
+MATCH (start {id: "A"}), (end {id: "E"})
+MATCH p=(start)-[:to*]->(end)
+WITH p, REDUCE(weight=0, rel in rels(p) | weight + rel.RC) as length
+with p, length where length <= 60
+return p, length ORDER BY  length asc
+LIMIT 10
+
+# 或者可以采用  APOC
+MATCH (start {id: "A"}), (end {id: "E"})
+CALL apoc.algo.dijkstra(start, end, "to", "RC") YIELD path, weight
+RETURN DISTINCT path, weight
+
+# 若不限定关系类型：
+MATCH (start {id: "A"}), (end {id: "E"})
+CALL apoc.algo.dijkstra(start, end, '', "RC") YIELD path, weight
+RETURN DISTINCT path, weight
+
+MATCH (start {id: "A"}), (end {id: "E"})
+MATCH p=(start)-[:to*]->(end)
+WITH p, REDUCE(weight=0, rel in rels | weight + rel.RC) as length
+with p, length where length <= 60
+return p, length
+LIMIT 10
+
+
+# 查看某个用法的帮助：
+CALL apoc.help("dijkstra")
+
