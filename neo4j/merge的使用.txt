@@ -38,12 +38,14 @@ RETURN keanu.name, keanu.created
 MERGE (person:Person)
 ON MATCH SET person.found = TRUE , person.lastAccessed = timestamp()
 RETURN person.name, person.found, person.lastAccessed
-4，在merge子句中同时指定on create 和 on match子句
 
+4，在merge子句中同时指定on create 和 on match子句
+# 如果找到就设置属性，没找到创建节点并设置属性：
 MERGE (keanu:Person { name: 'Keanu Reeves' })
 ON CREATE SET keanu.created = timestamp()
 ON MATCH SET keanu.lastSeen = timestamp()
 RETURN keanu.name, keanu.created, keanu.lastSeen
+
 5，merge子句用于match或create一个关系
 
 MATCH (charlie:Person { name: 'Charlie Sheen' }),(wallStreet:Movie { title: 'Wall Street' })
@@ -54,6 +56,10 @@ RETURN charlie.name, type(r), wallStreet.title
 MATCH (oliver:Person { name: 'Oliver Stone' }),(reiner:Person { name: 'Rob Reiner' })
 MERGE (oliver)-[:DIRECTED]->(movie:Movie)<-[:ACTED_IN]-(reiner)
 RETURN movie
+
+# merge关系，如果找到关系就设置属性，如果没找到就创建关系并设置属性：
+match (n{name:'xys'}),(m{name:'books'})  merge (n)-[r:read]->(m) on create set r.num=1 on match set r.num=r.num+1
+
 7，merge子句用于子查询
 
 复制代码

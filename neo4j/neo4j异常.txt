@@ -2,3 +2,25 @@
 数据文件都在，但查询结果却为空：
 删除数据文件中的文件`neostore.labelscanstore.db`，重启服务器即可，原因暂不明；
 ubuntu@10-13-158-31:~/yhb_test$ rm yhb.db/neostore.labelscanstore.db
+
+查询时报错：
+ERROR Neo.ClientError.Statement.TypeError
+Expected entity id to be an integral value
+
+主要原因是因为传入的参数不是int类型，这个时候转换为int类型即可：
+# 定义一个变量：
+:param batch: [{from:123,to:[44,12,128],created:"2016-01-13"}, {from:34,to:[23,35,2983],created:"2016-01-15"}]
+
+# 使用变量：
+UNWIND {batch} as row
+MATCH (from) WHERE id(from) = toint(row.from)
+MATCH (to) WHERE id(to) IN [x IN row.to | toint(x)] // list of ids
+CREATE (from)-[rel:FOO]->(to)
+SET rel.created = row.created return from, to
+
+# 或者：
+UNWIND $batch as row
+MATCH (from) WHERE id(from) = toint(row.from)
+MATCH (to) WHERE id(to) IN [x IN row.to | toint(x)] // list of ids
+MERGE (from)-[rel:FOO]->(to)
+SET rel.created = row.created return from, to

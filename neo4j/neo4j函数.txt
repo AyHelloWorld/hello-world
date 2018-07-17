@@ -33,6 +33,10 @@ LAST( expression )	返回一个集合 (collection)  里最后一个元素
 NODES( path )	返回一个路径的所有节点
 RELATIONSHIPS( path )	返回一个路径的所有关系
 EXTRACT( identifier in collection : expression )	返回一个结果集合：对集合(collection)的所有元素执行expression的操作得到的结果
+extract: 从一个节点或关系集合中返回单个属性或值的集合
+extract(x IN list | x.prop)
+MATCH  p=(n2:Number{name:"260万笔"}) return [x IN nodes(p) WHERE x.name <> '123456' | x.alias]
+
 FILTER(identifier in collection : predicate)	返回集合(collection)中所有满足断言(predicate)的元素组成的集合
 TAIL( expression )	返回集合中除了第一个之外的所有元素
 RANGE( start, end [, step] )	返回从start开始，end结束(闭区间)内步长为step(非0)的所有整数数字
@@ -43,7 +47,16 @@ ABS( expression )	返回expression得到的数值的绝对值
 ROUND( expression )	取整函数：返回小于等于expression得到的数值的最大整数(还是返回离expression得到的数值最近的整数？？)
 SQRT( expression )	返回expression得到的数值的平方根
 SIGN( expression )	符号函数：如果expression得到的数值，为0则返回0；为负数则返回-1；为正数则返回1
- 
+
+数学函数：
+abs()，acos()，asin()，atan()，atan2(x,y)，cos()，cot()，degree()，e()返回一个常量，exp(2) e的二次方，floor(0.9)=0.0，
+haversin()，log()，log10()，pi()常量PI，radians(180)，rand()返回0到1.0的值，round(3.14)=3.0，sign()，sin()，sqrt()，tan()
+
+字符串函数：
+str(1)="1"，replace("hello",'l','w')=hewwo，substring('hello',1,3)="ell"，substring("hello",2)="llo"，left("hello",3)="hel"，
+right("hello",3)="llo"，ltrim("    hello")="hello"，rtrim("hello   ")="hello"，trim("   hello   ")="hello"，lower("HELLO")="hello"，
+upper("hello")="HELLO"，split("one,two",",")=["one","two"]
+
 聚合函数(Aggregate functions)
 函数名称	函数说明
 COUNT( expression )	返回expression得到的结果的个数，expression也可为"*"
