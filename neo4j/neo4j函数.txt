@@ -3,8 +3,23 @@
 函数名称	函数说明
 ALL(identifier in collection WHERE predicate)	判断一个断言(predicate)是否满足集合(collection)里的所有元素
 ANY(identifier in collection WHERE predicate)	判断一个断言(predicate)是否至少满足集合(collection)里的一个元素
+如： MATCH (a)  WHERE a.name='Eskil' AND ANY (x IN a.array WHERE x = "one")   RETURN a
 NONE(identifier in collection WHERE predicate)	如果集合(collection)里的元素不满足断言(predicate)则返回true
 SINGLE(identifier in collection WHERE predicate)	如果集合(collection)里的只有一个元素满足断言(predicate)则返回true
+EXISTS：判断节点是否存在某个属性，如 name：
+MATCH (n)
+WHERE EXISTS(n.name)
+RETURN n.name AS name, EXISTS((n)-[:MARRIED]->()) AS is_married
+
+starts With: 查询name以‘小’开头的节点：
+Match  (n)   where  n.name  starts  with ‘小’  return  n
+
+ends with: 查询name以‘明’结尾的节点：
+Match  (n)   where  n.name  ends   with ‘明’  return  n
+
+Contains: 查询name中含有 ‘小’的节点
+Match  (n)  where  n.name  Contains  ‘小’  return  n
+
 标量函数(Scalar functions)
 函数名称	函数说明
 LENGTH( collection )	返回集合的元素个数

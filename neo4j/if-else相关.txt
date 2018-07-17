@@ -101,6 +101,7 @@ RETURN n
 , coalesce(p, 'nobody')
 , coalesce(labels(p),'nothing')
 
+# coalesce：返回第一个not null值。match (a) where a.name='Alice' return coalesce(a.hairColor,a.eyes)
 
 Cypher提供FOREACH语句，用来遍历列表中的每一个元素并分别执行更新操作。于是，一个包含0个元素或者1个元素的列表则可以看成一个条件表达式。因为当0个元素的时候，就不会执行遍历，而当1个元素的时候，就只执行一次遍历。
 
