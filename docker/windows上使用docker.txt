@@ -1,4 +1,9 @@
 ﻿
+对于Windows用户来说，使用docker toolbox来安装docker是最简单的方式
+Windows10安装参考： https://www.cnblogs.com/linjj/p/5606687.html
+Windows7安装参考：https://blog.csdn.net/qq2712193/article/details/54576313
+下载及安装说明： https://docs.docker.com/toolbox/toolbox_install_windows/
+
 机器必须具有运行Windows 7或更高版本的64位操作系统;
     可以安装Docker Toolbox，它使用Oracle Virtual Box而不是Hyper-V。
     Docker Toolbox的下载地址：

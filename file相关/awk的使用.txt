@@ -11,5 +11,8 @@ awk '{print $1,$2}' filename
 3、打印完第一列，然后打印第二列
 awk '{print $1 $2}' filename
 
+4、打印最后一列：
+gswyhq@gswyhq-PC:~/yhb$ ls -al|awk '{print $NF}'
+
 
 
