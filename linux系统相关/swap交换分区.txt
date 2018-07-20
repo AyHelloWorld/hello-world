@@ -111,3 +111,24 @@ Swap:          1.0G          0B        1.0G
 
 # 现在看swap的used的那一项为零了，说明已经清空；但Mem的free的那一项增加了。
 
+若需要对swap分区进行扩容，则另新建一个就可以了：
+扩容之前：
+gswyhq@gswyhq-PC:~$ free -h
+              total        used        free      shared  buff/cache   available
+Mem:            15G        9.7G        3.5G        366M        2.4G        5.3G
+Swap:          4.0G        2.6G        1.4G
+gswyhq@gswyhq-PC:~$ /sbin/swapon -s
+Filename                Type        Size    Used    Priority
+/swapfile                               file        4194300 2728544 -1
+
+扩容之后：
+gswyhq@gswyhq-PC:~$ sudo swapon -s
+Filename                Type        Size    Used    Priority
+/swapfile                               file        4194300 2727996 -1
+/home/gswyhq/swapfile                   file        20971516    0   -2
+
+gswyhq@gswyhq-PC:~$ free -h
+              total        used        free      shared  buff/cache   available
+Mem:            15G        9.7G        3.5G        370M        2.5G        5.3G
+Swap:           23G        2.6G         21G
+
