@@ -196,7 +196,11 @@ default   *        virtualbox   Running   tcp://192.168.99.100:2376           v1
 test01    -        virtualbox   Running   tcp://192.168.99.101:2376           v17.06.0-ce
 
 
-
+设置国内镜像源：
+docker-machine ssh default
+sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=http://f2d6cb40.m.daocloud.io |g" /var/lib/boot2docker/profile
+exit
+docker-machine restart default
 
 
 
