@@ -96,4 +96,6 @@ ssh登录时，自动加载~/.bash_aliases、~/.bashrc文件：
 1.ubuntu新增加用户之后，添加字符界面显示风格等配置信息文件.bashrc之后，运行source .bashrc生效，但是重新登录之后还要再次运行。
 2.原因是登录时没有自动运行.bashrc的配置信息
 3.添加~/.profile的设置，可以直接从其他用户主目录拷贝即可
+# 有可能是要求添加“~/.bash_profile”文件，文件内有：
+source ~/.bashrc
 
