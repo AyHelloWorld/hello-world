@@ -121,9 +121,9 @@ https://mirrors.ustc.edu.cn/alpine/v3.6/community/
 $ apk add asterisk=1.6.0.21-r0
 $ apk add 'asterisk<1.6.1'
 $ apk add 'asterisk>1.6.1
-1
-2
-3
+
+--no-cache参数不缓存文件，有助于减少最终体积。
+
 apk del
 
 del：卸载并删除PACKAGES
