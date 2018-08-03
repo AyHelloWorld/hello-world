@@ -64,63 +64,6 @@ Global options:
   --print-arch            Print default arch and exit
 
 This apk has coffee making abilities.
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
 使用示例
 
 下面列举常用命令：
@@ -140,6 +83,23 @@ add命令从仓库中安装最新软件包，并自动安装必须的依赖包�
 $ apk add openssh openntp vim
 $ apk add --no-cache mysql-client
 $ apk add docker --update-cache --repository http://mirrors.ustc.edu.cn/alpine/v3.4/main/ --allow-untrusted
+
+安装指定版本软件包
+apk add asterisk=1.6.0.21-r0
+apk add 'asterisk<1.6.1'
+apk add 'asterisk>1.6.1
+
+Alpine构建可以使用--virtual参数指定构建过程需要安装的包，这样构建的镜像体积会小很多。
+举个例子：
+RUN apk add build-base
+RUN apk del build-base
+上面这种方式看似是删除了build-base这个包，但并不会减少镜像体积，原因很简单，安装过程被记录保存下来了。
+
+使用下面的方式：
+RUN apk add --virtual BUILD build-base && \
+    apk del BUILD
+build-base这个包不会被记录下来，可以减少150MB的体积呐~
+这种用法在 Dockerfile 中很常见，将多个包的集合命名为一个名称，方便了后续卸载。
 
 4.2更新国内源
 # Alpine的源文件为：
