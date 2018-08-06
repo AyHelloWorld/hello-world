@@ -158,3 +158,13 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 将其立即生效：
 source ~/.bash_profile
+
+实际上大多数git发行版本，安装git时，git自动补全的脚本（git completion script） 被安装到 /etc/bash_completion.d/ (or /usr/share/bash-completion/completions/git) ；
+这个时候不需要到 github下载git自动补全脚本. 仅仅需要添加到 .bashrc中即可:
+source /etc/bash_completion.d/git
+# or
+source /usr/share/bash-completion/completions/git
+在某些Ubuntu版本中, 默认情况下git autocomplete 可能会被破坏掉了，这时可以通过下面的命令安装修复:
+sudo apt-get install git-core bash-completion
+
+
