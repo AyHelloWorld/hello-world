@@ -1,0 +1,11 @@
+
+具体报错
+fatal: The remote end hung up unexpectedly
+error: RPC failed; curl 18 transfer closed with outstanding read data remaining
+
+解决方法
+git config --global http.postBuffer 524288000
+
+需要注意的是http.postBuffer 后，单位是b，524288000B也就500M左右
+
+

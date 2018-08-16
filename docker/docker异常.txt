@@ -167,3 +167,36 @@ Sending build context to Docker daemon 4.309 GB
 在 .dockerignore 中添加需要忽略的文件或者文件夹即可。于是在添加之后：
 Sending build context to Docker daemon 679.9 kB
 看到这个数据量整个人都舒服了。
+
+问题说明
+docker的python容器中执行print(‘测试’)，常见的错误提示，在宿主机不会出现
+UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-127: ordinal not in range(128)
+或者有时候，用 "docker run my_ubuntu /project/start.sh", 启动一个Python服务启动不了，
+但用"docker run my_ubuntu /bin/bash" 启动容器后，再执行"/project/start.sh"却可以正常运行；输出对应的日志，也是因为编码不正常所致。
+问题分析
+原因是因为locale 的设置导致 shell 的stdin/stdout/stderr 的默认编码为ascii，当用ascii编码去解释python3默认unicode编码的时候，自然会有问题
+解决方法：
+locale -a查看容器所有语言环境
+root@1d0ff322167f:/project# locale -a
+C
+C.UTF-8
+POSIX
+zh_CN
+zh_CN.gb2312
+zh_CN.utf8
+zh_HK.utf8
+zh_SG.utf8
+zh_TW.utf8
+只需要把容器编码设置为可以支持中文的编码即可
+# docker run 方式
+docker run -e LANG=zh_CN.utf8  m_container:latest my-python3
+# docker-compose 方式
+ environment:
+      - LANG=zh_CN.utf8
+
+
+# 如何避免Docker容器启动脚本运行后自动退出
+（1）容器中运行多个守护进程时，前面的进程要用后台方式运行（或添加 &），否则后面的服务无法启动
+（2）容器中最后一个守护进程一定要用前台方式运行，否则start.sh退出，容器退出，所有的服务就白启动了
+
+

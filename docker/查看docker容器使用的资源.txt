@@ -66,7 +66,7 @@ $ docker stats --no-stream --format \
 # 按CPU的使用情况进行排序输出：
 ubuntu@ip-172-33-13-170:~$ docker stats --all --format "table {{.CPUPerc}}\t{{.MemUsage}}\t{{.Container}}" --no-stream |sort -r
 
-
+docker stats --format "{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 
 # 更多使用帮助见：
 https://docs.docker.com/engine/reference/commandline/stats/
