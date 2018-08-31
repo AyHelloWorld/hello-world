@@ -270,3 +270,8 @@ pip install -e的-e，表示editable mode，它会把源文件下载到 当前/�
 $ pip install -e .                     # project in current directory
 $ pip install -e path/to/project       # project in another directory
 
+# pip安装Python包时报错： 
+  Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='pypi.org', port=443): Read timed out. (read timeout=15)",)': /simple/scikit-learn/
+解决方案，加大超时时间，如 ：
+pip3 --default-timeout=6000 install scikit_learn==0.19.2
+

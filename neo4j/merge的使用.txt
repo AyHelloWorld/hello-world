@@ -75,3 +75,28 @@ MATCH (person:Person)
 MERGE (city:City { name: person.bornIn })
 MERGE (person)-[r:BORN_IN]->(city)
 RETURN person.name, person.bornIn, city;
+
+merge (n:Baoxianchanpin:Abc1535103448461383382) merge (m:Shiyi:Abc1535103448461383382) MERGE   (n)-[:`专业术语`]->(m) RETURN n,m
+
+Some example data:
+
+CREATE 
+  (t1:Type {name:"t1"}),
+  (t2:Type {name:"t2"}),
+  (t3:Type {name:"t3"}),
+  (t1)-[:REL]->(t2)
+The query:
+
+MATCH (t1:Type)
+OPTIONAL MATCH (t1)-[r]->(t2:Type)
+RETURN
+  t1, t2,
+  CASE r
+    WHEN NULL THEN "other thing"
+    ELSE "something"
+  END AS info
+
+CALL db.labels() YIELD label with label where label starts with 'Abc' WITH COLLECT(label) AS its FOREACH (value IN its |  merge (n:Baoxianchanpin ) set n.sign=value )
+
+CALL db.labels() YIELD label with label where label starts with 'Abc' WITH COLLECT(label) AS its FOREACH (value IN its |  MERGE (n:Baoxianchanpin {sign:value}) MERGE(m:Shiyi {sign: value}) MERGE  (n)-[:`专业术语`]->(m)  )
+

@@ -8,4 +8,11 @@ git config --global http.postBuffer 524288000
 
 需要注意的是http.postBuffer 后，单位是b，524288000B也就500M左右
 
+# root@5420f754d9e6:/chat_bot# git diff HEAD conf/system_conf.py
+WARNING: terminal is not fully functional
+这是因为 TERM 变量的值 git 无法识别。
+在Windows中可以使用如下的方式设置
+SETX TERM cygwin
+在Linux中可以使用如下的方式设置：
+root@5420f754d9e6:/chat_bot# export TERM=xterm
 

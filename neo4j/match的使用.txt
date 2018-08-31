@@ -105,4 +105,29 @@ MATCH (n)  WHERE n.belt = 'white'  RETURN n
 MATCH (n)  WHERE n.belt = 'white' OR n.belt IS NULL RETURN n  ORDER BY n.name
 过滤NULL：MATCH (person)  WHERE person.name = 'Peter' AND person.belt IS NULL RETURN person
 
+正则匹配查找：
+match(n:Name) 
+    where n.key =~ '^[0-9]{1,10}CHINA$' 
+return count(n)
+
+# 查询标签开头为Abc的所有标签：
+CALL db.labels() YIELD label with label where label starts with 'Abc' return label
+结果： 
+╒════════════════════════╕
+│"label"                 │
+╞════════════════════════╡
+│"Abc1535103448461383382"│
+├────────────────────────┤
+│"Abc153511749678647311" │
+└────────────────────────┘
+
+LOAD CSV WITH HEADERS FROM 'file:///file.csv' AS line
+WITH line
+
+MERGE (a:Item {name: line.Col1})
+
+FOREACH (x IN SPLIT(line.Col2, ';') |
+  MERGE (s:Item {name: x})
+  MERGE (s)-[:rel]->(a));
+
 
