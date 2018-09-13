@@ -37,15 +37,16 @@ RETURN count(*)
 如果你的更新操作是相互独立的话（创建节点，更新属性或者更新独立的子图），那么你可以添加parallel:true来充分利用cpu。
 
 比方说，你想计算多个物品的评分，并通过批处理的方式来更新属性，你应该按下面这样操作
-call apoc.periodic.iterate('
-MATCH (n:User)-[r1:LIKES]->(thing)<-[r2:RATED]-(m:User) WHERE id(n)<id(m) RETURN thing, avg( r1.rating + r2.rating ) as score
-','
-WITH {thing} as t SET t.score = {score}
-', {batchSize:10000, parallel:true})
+call apoc.periodic.iterate('MATCH (n:User)-[r1:LIKES]->(thing)<-[r2:RATED]-(m:User) WHERE id(n)<id(m) RETURN thing, avg( r1.rating + r2.rating ) as score',
+                           'WITH {thing} as t SET t.score = {score}', 
+                           {batchSize:10000, parallel:true}
+                          )
 
 其他：
-call apoc.periodic.iterate("match (r:Label {`domain key` : 'unit-B2'})-[:isPredecessorOf*0..]->(n:`T-Base`) return distinct n as map","
-create (copy:`T-Base`) set copy = map, copy.`domain key` = map.`domain key` + '-copy'  with map, copy create (copy)-[:isCopyOf]->(map)",{batchSize:10000,iterateList:true})
+call apoc.periodic.iterate("match (r:Label {`domain key` : 'unit-B2'})-[:isPredecessorOf*0..]->(n:`T-Base`) return distinct n as map",
+                           "create (copy:`T-Base`) set copy = map, copy.`domain key` = map.`domain key` + '-copy'  with map, copy create (copy)-[:isCopyOf]->(map)",
+                           {batchSize:10000,iterateList:true}
+                          )
 
 # 动态创建或者操作Map，并赋给属性
 尽管Cypher为列表提供了相当遍历的操作，如range, collect, unwind, reduce, extract, filter, size等，但Map在有的时候也是需要进行创建和更改的。

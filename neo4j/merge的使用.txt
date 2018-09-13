@@ -100,3 +100,20 @@ CALL db.labels() YIELD label with label where label starts with 'Abc' WITH COLLE
 
 CALL db.labels() YIELD label with label where label starts with 'Abc' WITH COLLECT(label) AS its FOREACH (value IN its |  MERGE (n:Baoxianchanpin {sign:value}) MERGE(m:Shiyi {sign: value}) MERGE  (n)-[:`专业术语`]->(m)  )
 
+a b 都不存在，创建节点并建立关系
+a b 都存在，只建立关系
+a 存在 b 不存在，创建b节点并建立关系
+a 不存在 b 存在，创建a节点并建立关系
+MERGE (a:TEST1{_id:'3'})
+WITH (a)
+MERGE (b:TEST2{_id:'4'}) 
+WITH a,b
+WHERE a._id='3' AND b._id ='4' MERGE (a)-[r:CONTACT]->(b)
+
+或：
+MERGE (a:TEST1{_id:'3'})
+WITH (a)
+MERGE (b:TEST2{_id:'4'}) 
+WITH a,b MERGE (a)-[r:CONTACT]->(b)
+
+

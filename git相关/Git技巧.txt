@@ -167,4 +167,15 @@ source /usr/share/bash-completion/completions/git
 在某些Ubuntu版本中, 默认情况下git autocomplete 可能会被破坏掉了，这时可以通过下面的命令安装修复:
 sudo apt-get install git-core bash-completion
 
+# 克隆指定分支的代码：
+git clone http://192.168.3.101/gswyhq/deployment.git -b dev
+
+# 克隆指定tag的代码（同克隆指定分值一样）：
+git clone http://192.168.3.101/gswyhq/deployment.git -b v3.5
+# 但这样会使当前版本的head指针处于游离状态:
+gswyhq@gswyhq-PC:~/Downloads/deployment$ git branch 
+* （非分支）
+# 如果您想要通过创建分支来保留在此状态下所做的提交，您可以通过在检出命令添加新分支：
+git checkout -b <new-branch-name>
+
 
