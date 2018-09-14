@@ -8,7 +8,14 @@ gswewf@gswewf-pc:~/qa_jar$ git diff 6c0311a8da6d848e04c40446ea25386824d37b7b --s
  3 files changed, 14 insertions(+), 18 deletions(-)
 
 # 查看某个文件的历史：
-gswewf@gswewf-PC:~/yhb$ gitk dialogue_managem/global_variable.py
+1. git log filename
+可以看到fileName相关的commit记录
+2. git log -p filename
+可以显示每次提交的diff
+3. 只看某次提交中的某个文件变化，可以直接加上fileName
+git show commit-id filename
+4.根据commit-id查看某个提交
+git show -s --pretty=raw ca53e82
 
 # 使用的命令git add file1 是把文件从工作区提交到暂存区，git commit -m "prompty" file1 是把文件从暂存区提交到了版本库
   git diff 比较的是工作区和暂存区的差别
@@ -58,3 +65,8 @@ git log dev...master
 4.在上述情况下，再显示出每个提交是在哪个分支上：
 git log --left-right dev...master
 注意 commit 后面的箭头，根据我们在 –left-right dev…master 的顺序，左箭头 < 表示是 dev 的，右箭头 > 表示是 master的。
+
+5.查看某一个commit详情：
+   git show commit_id
+
+
