@@ -16,3 +16,16 @@ SETX TERM cygwin
 在Linux中可以使用如下的方式设置：
 root@5420f754d9e6:/chat_bot# export TERM=xterm
 
+有时候删除远程的分支或者tag会报错：
+error: dst refspec tianfeng_20180910 matches more than one.
+错误原因：当远程仓库同时存在相同名称的 branch 和 tag 时，不指明绝对路径的前提下，操作这个名称的 branch 和 tag 都会出现这个问题。
+解决方案：
+指明操作对象的绝对路径就能准确操作了
+对象	路径
+branch	refs/heads/branch_name
+tag	refs/tags/tag_name
+举个删除的例子：
+//删除 dev_test 分支
+git push origin :refs/heads/dev_test
+//删除 dev_test 标签
+git push origin :refs/tags/dev_test
