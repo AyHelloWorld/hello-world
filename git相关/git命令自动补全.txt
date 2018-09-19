@@ -1,0 +1,17 @@
+
+
+Alpine Linux系统的git自动补全：
+1、安装自动补全
+apk update
+apk add git git-bash-completion bash bash-completion
+2、将默认的shell由/bin/ash更改为/bin/bash
+需要将 root shell 更改为 bash，请输入：
+# vi /etc/passwd
+查找用户名和默认 shell，比如 /bin/ash：
+root:x:0:0:root:/root:/bin/ash
+然后用 /bin/bash 替换：
+root:x:0:0:root:/root:/bin/bash
+3、编辑~/.bashrc,添加：
+source /usr/share/bash-completion/completions/git
+
+

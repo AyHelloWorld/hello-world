@@ -29,3 +29,14 @@ tag	refs/tags/tag_name
 git push origin :refs/heads/dev_test
 //删除 dev_test 标签
 git push origin :refs/tags/dev_test
+
+# git diff; git branch等命令时，不能已颜色来区分；而是显示如下格式：
+* [[32mmaster[[m
+[[1mdiff --git a/README.md b/README.md[[m
+[[1mdiff --git a/README.md b/README.md[[m
+[[1mindex 808c44b..4111fe9 100644[[m
+[[1m--- a/README.md[[m
+[[1m+++ b/README.md[[m
+解决方案：安装第三方工具colordiff增加颜色：
+Alpine Linux: apk add colordiff
+
